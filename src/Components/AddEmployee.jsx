@@ -11,9 +11,11 @@ function AddEmployee() {
   const handleShow = () => setShow(true);
   return (
     <div>
- <Button variant="primary" onClick={handleShow} className='mt-3 d-flex align-items-end justify-content-end'>
-        Add Employee
-      </Button>
+    <div className='w-100 d-flex justify-content-end align-items-end  me-4'>
+         <Button variant="primary" onClick={handleShow} className='m-5 p-3'>
+         Add Employee
+         </Button>
+      </div>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Employee Details</Modal.Title>
