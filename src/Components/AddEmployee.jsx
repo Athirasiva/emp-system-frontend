@@ -4,8 +4,10 @@ import Modal from 'react-bootstrap/Modal';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
 import { uploadEmpDetails } from '../services/allAPIs';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-function AddEmployee() {
+function AddEmployee({setAddEmpResponse}) {
     const [user, setUser] = useState({
       id:"",
       name:"",
@@ -23,14 +25,15 @@ function AddEmployee() {
   const handleSubmit = async() =>{
     const {id,name,email,phone,designation,image}  = user
     if(!id || !name || !email || !phone || !designation || !image){
-      alert("Please fill the form completely")
+      toast.warning("Please fill the form completely")
     }else{
       const response = await uploadEmpDetails(user)
       if(response.status == 201){
-        alert("Employee details added")
+        setAddEmpResponse(response)
+        toast.success("Employee details added")
         handleClose();
       }else{
-        alert("Error!!")
+        toast.error("Error!!")
         console.log(response);
       }
     }
@@ -113,6 +116,8 @@ function AddEmployee() {
           </Button>
         </Modal.Footer>
       </Modal>
+
+      <ToastContainer />
     </div>
   )
 }

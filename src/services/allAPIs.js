@@ -16,3 +16,11 @@ export const displayEmpDetails = async() =>{
 export const displayEmp = async(id) =>{
     return await commonAPI("GET", `${base_URL}/users/${id}`,"")
 }
+
+export const deleteEmpDetails = async(id) =>{
+    return await commonAPI("DELETE",`${base_URL}/users/${id}`,{})
+}
+
+export const editEmpDetails = async(id,user) =>{
+    return await commonAPI("PUT",`${base_URL}/users/${id}`,user)
+}

@@ -2,30 +2,44 @@ import React, { useEffect, useState } from 'react'
 import Table from 'react-bootstrap/Table';
 import EditEmployee from './EditEmployee';
 import { Button } from 'react-bootstrap';
-import { displayEmpDetails } from '../services/allAPIs';
+import { deleteEmpDetails, displayEmpDetails } from '../services/allAPIs';
 import DisplayEmployee from './DisplayEmployee';
+import { toast } from 'react-toastify';
 
-function DisplayTable() {
+function DisplayTable({addEmpResponse}) {
   const [userData, setUserData] = useState([])
+  const [editResponse, setEditResponse]= useState('')
   useEffect(()=>{
     getData()
-  },[])
+  },[addEmpResponse,editResponse])
 
    const getData = async()=>{
     const response = await displayEmpDetails()
     if (response.status == 200) {
-      console.log(response);
       setUserData(response.data)
       // console.log(response);
     }
     else
     {
-      alert("No user data found")
+      toast.warning("No user data found")
     }
     
    }
-   console.log(userData);
    
+    const deleteEmployee = async(id) =>{
+       const res = await deleteEmpDetails(id)
+       if (res.status == 200) {
+        getData()
+        toast.success("Employee Details Deleted")
+       }
+       else
+       {
+        toast.error("FAiled")
+        console.log(res);
+        
+       }
+       
+    }
   return (
     <div className='mt-4'>
          <Table striped>
@@ -33,7 +47,6 @@ function DisplayTable() {
         <tr>
           <th>Sl no</th>
           <th>First Name</th>
-          <th>Designation</th>
           <th>Email</th>
           <th>Phone No</th>
           <th></th>
@@ -48,12 +61,11 @@ function DisplayTable() {
           <tr key={index}>
           <td>{user.id}</td>
           <td>{user.name}</td>
-          <td>{user.designation}</td>
           <td>{user.email}</td>
           <td>{user.phone}</td>
-          <td><DisplayEmployee id={user.id}/></td>
-          <td><EditEmployee/></td>
-          <td><Button className='mt-3'>Delete</Button></td>
+          <td><DisplayEmployee user={user}/></td>
+          <td><EditEmployee  user={user} setEditResponse={setEditResponse}/></td>
+          <td><Button className='mt-3' onClick={()=>deleteEmployee(user.id)} >Delete</Button></td>
           </tr>
         ))
       : "Nothing to display"
