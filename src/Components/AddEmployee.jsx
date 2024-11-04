@@ -42,8 +42,8 @@ function AddEmployee({setAddEmpResponse}) {
   
   return (
     <div>
- <div className='w-100 d-flex justify-content-end align-items-end  me-3'>
-         <Button variant="primary" onClick={handleShow} className='m-3 p-3'>
+    <div className='w-100 d-flex justify-content-end align-items-end  me-4'>
+         <Button variant="primary" onClick={handleShow} className='m-5 p-3'>
          Add Employee
          </Button>
       </div>
